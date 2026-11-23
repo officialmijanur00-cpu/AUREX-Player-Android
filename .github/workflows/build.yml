@@ -21,7 +21,9 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -30,7 +32,7 @@ jobs:
 
       - name: Extract project
         run: |
-          mkdir extracted
+          mkdir -p extracted
           unzip -q AUREX-Player-Android-source.zip -d extracted
 
       - name: Build APK
@@ -41,3 +43,4 @@ jobs:
         with:
           name: AUREX-Player-APK
           path: extracted/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
